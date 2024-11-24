@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm
+from .forms import RegistrationForm, ChangeUserForm
 from django.contrib import messages
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 
@@ -23,7 +24,7 @@ class UserLoginView(LoginView):
     template_name = "sign_up.html"
 
     def get_success_url(self):
-        return reverse_lazy("homepage")  # change to profile page later
+        return reverse_lazy("profile_page")
 
     def form_valid(self, form):
         messages.success(self.request, "Logged in successfully")
@@ -42,3 +43,22 @@ class UserLoginView(LoginView):
 def user_logout(request):
     logout(request)
     return redirect("login_page")
+
+
+@login_required
+def profile(request):
+    user = request.user
+    return render(request, "profile.html", {"user": user})
+
+
+@login_required
+def edit_profile(request):
+    if request.method == "POST":
+        profile_form = ChangeUserForm(request.POST, instance=request.user)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, "Profile updated successfully")
+            return redirect("profile_page")
+    else:
+        profile_form = ChangeUserForm(instance=request.user)
+    return render(request, "update_profile.html", {"form": profile_form})

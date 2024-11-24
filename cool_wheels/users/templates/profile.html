@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% load crispy_forms_tags %} {% block content %}
+<section class="py-5">
+  <h1>
+    Welcome to your Profile {{user.first_name|title}} {{user.last_name|title}}
+  </h1>
+  <p>
+    To update your profile click
+    <a href="{% url 'update_profile_page' %}">here</a>
+  </p>
+
+  <div class="my-4"></div>
+</section>
+{% endblock %}
