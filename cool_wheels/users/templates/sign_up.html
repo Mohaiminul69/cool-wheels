@@ -1,0 +1,15 @@
+{% extends 'base.html' %}{% load crispy_forms_tags %} {% block content %}
+<section class="py-5">
+  <h1>This is the {{type}} page.</h1>
+
+  <div class="my-4">
+    <form action="" method="post">
+      {% csrf_token %} {{form|crispy}} {% if type == 'Register' %}
+      <button class="btn btn-sm btn-success">Register</button>
+      {% else %}
+      <button class="btn btn-sm btn-success">Login</button>
+      {% endif %}
+    </form>
+  </div>
+</section>
+{% endblock %}
