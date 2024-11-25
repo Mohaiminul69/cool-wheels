@@ -6,7 +6,7 @@ from .models import Car
 
 
 # Create your views here.
-@method_decorator(login_required, name="dispatch")
+# @method_decorator(login_required, name="dispatch")
 class CarDetails(DetailView):
     model = Car
     template_name = "details.html"
