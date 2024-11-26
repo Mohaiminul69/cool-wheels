@@ -4,7 +4,7 @@
     <div class="my-4 d-flex justify-content-between gap-3">
       {% for brand in brands %}
       <a
-        href="#"
+        href="{% url 'brand_filter' brand.slug %}"
         class="btn btn-warning text-decoration-none px-4"
         style="font-size: 17px"
       >
