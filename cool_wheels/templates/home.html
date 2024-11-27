@@ -2,6 +2,7 @@
 <!--  -->
 {%block content%}
 <section class="pb-5">
+  {% if type != 'shop' %}
   <div class="row mb-5">
     <div class="col-6">
       <div class="h-100 w-75 d-flex flex-column justify-content-center">
@@ -39,22 +40,38 @@
       </div>
     </div>
   </div>
+  {% endif %}
   <div class="my-4">
     <div class="my-4 d-flex justify-content-between gap-3">
+      {% if type == 'shop' %}
+      <a
+        href="{% url 'shop' %}"
+        class="btn btn-warning text-decoration-none px-4"
+      >
+        All
+      </a>
+      {%else%}
       <a
         href="{% url 'homepage' %}"
         class="btn btn-warning text-decoration-none px-4"
       >
         All
       </a>
-      {% for brand in brands %}
+      {% endif %} {% for brand in brands %} {% if type == 'shop' %}
+      <a
+        href="{% url 'shop_brand_filter' brand.slug %}"
+        class="btn btn-warning text-decoration-none px-4"
+      >
+        {{brand|upper}}
+      </a>
+      {%else%}
       <a
         href="{% url 'brand_filter' brand.slug %}"
         class="btn btn-warning text-decoration-none px-4"
       >
         {{brand|upper}}
       </a>
-      {% endfor %}
+      {% endif %} {% endfor %}
     </div>
     <h4>Total Cars Found: {{cars|length}}</h4>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5 mt-2">
