@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import RegistrationForm, ChangeUserForm
 from django.contrib import messages
 from cars.models import Purchase
-from django.contrib.auth.views import LoginView
+from django.utils.decorators import method_decorator
+from django.contrib.auth.views import LoginView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -46,11 +47,15 @@ def user_logout(request):
     return redirect("login_page")
 
 
-@login_required
-def profile(request):
-    user = request.user
-    collections = Purchase.objects.filter(user=request.user)
-    return render(request, "profile.html", {"user": user, "collections": collections})
+@method_decorator(login_required, name="dispatch")
+class ProfileView(TemplateView):
+    template_name = "profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user"] = self.request.user
+        context["collections"] = Purchase.objects.filter(user=self.request.user)
+        return context
 
 
 @login_required

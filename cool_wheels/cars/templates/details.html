@@ -18,11 +18,13 @@
               <h4 class="text-success fw-bold">Price: $ {{car.price}}</h4>
               <h5 class="mb-4">Quantity: {{car.quantity}} Pcs</h5>
             </div>
+            {% if request.user.is_authenticated %}
             <div>
               <a href="{% url 'buy_car' car.id %}" class="btn btn-warning px-4"
                 >Buy Now</a
               >
             </div>
+            {% endif %}
           </div>
         </div>
       </div>
