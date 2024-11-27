@@ -19,7 +19,9 @@
               <h5 class="mb-4">Quantity: {{car.quantity}} Pcs</h5>
             </div>
             <div>
-              <a href="#" class="btn btn-warning px-4">Buy Now</a>
+              <a href="{% url 'buy_car' car.id %}" class="btn btn-warning px-4"
+                >Buy Now</a
+              >
             </div>
           </div>
         </div>
@@ -57,7 +59,9 @@
                 <div class="card-body">
                   <form method="post">
                     {% csrf_token %} {{comment_form|crispy}}
-                    <button type="submit" class="btn btn-warning px-5">Comment</button>
+                    <button type="submit" class="btn btn-warning px-5">
+                      Comment
+                    </button>
                   </form>
                 </div>
               </div>

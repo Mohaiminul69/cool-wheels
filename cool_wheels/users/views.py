@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import RegistrationForm, ChangeUserForm
 from django.contrib import messages
+from cars.models import Purchase
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -48,7 +49,8 @@ def user_logout(request):
 @login_required
 def profile(request):
     user = request.user
-    return render(request, "profile.html", {"user": user})
+    collections = Purchase.objects.filter(user=request.user)
+    return render(request, "profile.html", {"user": user, "collections": collections})
 
 
 @login_required

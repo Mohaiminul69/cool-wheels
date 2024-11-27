@@ -1,5 +1,6 @@
 from django.db import models
 from brands.models import Brand
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -25,3 +26,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.name}"
+
+
+class Purchase(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    car = models.ForeignKey(Car, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.car.name}"

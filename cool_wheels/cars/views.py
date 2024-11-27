@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
-from .models import Car
+from .models import Car, Purchase
 from .forms import CommentForm
 
 
@@ -31,3 +31,15 @@ class CarDetails(DetailView):
         context["comments"] = comments
         context["comment_form"] = comment_form
         return context
+
+
+@login_required
+def buy_car(request, id):
+    car = Car.objects.get(pk=id)
+    if car.quantity > 0:
+        car.quantity -= 1
+        car.save()
+        Purchase.objects.create(user=request.user, car=car)
+        return redirect("profile_page")
+    else:
+        return render(request, "details.html")
